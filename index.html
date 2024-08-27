@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lot Size Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator-container {
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        #lotSizeOutput {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h2>Lot Size Calculator</h2>
+        <form id="lotSizeForm">
+            <label for="asset">Select Asset:</label>
+            <select id="asset" name="asset">
+                <option value="US500">US500</option>
+                <option value="US100">US100</option>
+            </select>
+            
+            <label for="riskAmount">Risk Amount (in dollars):</label>
+            <input type="number" id="riskAmount" name="riskAmount" required>
+            
+            <label for="stopLossDistance">Stop Loss Distance (in points):</label>
+            <input type="number" id="stopLossDistance" name="stopLossDistance" required>
+            
+            <button type="button" onclick="calculateLotSize()">Calculate Lot Size</button>
+        </form>
+        
+        <h3>Calculated Lot Size: <span id="lotSizeOutput">0</span> lots</h3>
+    </div>
+    
+    <script>
+        function calculateLotSize() {
+            // Get form values
+            const asset = document.getElementById('asset').value;
+            const riskAmount = parseFloat(document.getElementById('riskAmount').value);
+            const stopLossDistance = parseFloat(document.getElementById('stopLossDistance').value);
+            
+            // Determine contract size based on asset
+            let contractSize;
+            if (asset === 'US500') {
+                contractSize = 50;
+            } else if (asset === 'US100') {
+                contractSize = 20;
+            }
+            
+            // Calculate lot size
+            const lotSize = riskAmount / (stopLossDistance * contractSize);
+            
+            // Display the result
+            document.getElementById('lotSizeOutput').innerText = lotSize.toFixed(2);
+        }
+    </script>
+</body>
+</html>
